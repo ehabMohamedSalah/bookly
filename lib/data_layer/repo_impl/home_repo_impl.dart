@@ -56,4 +56,19 @@ class HomeRepoImpl extends HomeRepo{
         }
     );
   }
+
+  @override
+  Future<Either<List<BookEntity>, String>> searchBooks({required String bookName}) async{
+   var result=await apiDatasource.SearchBooks(bookName: bookName);
+   return result.fold(
+           (response) {
+             List<BookModel>listBookModel=response;
+             List<BookEntity>listBookEntity=listBookModel.map((book) => book.toBookEntity()).toList();
+             return left(listBookEntity);
+           },
+           (error)  {
+             return right(error);
+           }
+   );
+  }
 }

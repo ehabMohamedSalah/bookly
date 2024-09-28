@@ -45,6 +45,15 @@ class HomeDatasourceImpl extends HomeDatasource{
     return left(booklist.items??[]);
   }
 
+  @override
+  Future<Either<List<BookModel>, String>> SearchBooks({required String bookName})async {
+   var response=await apiManager.getRequest(
+        Endpoint: 'volumes?Filtering=free-ebooks&q=subject:$bookName',
+    );
+   var booklist=BookResponse.fromJson(response.data);
+   return left(booklist.items??[]);
+  }
+
   //search endpoint volumes?Filtering=free-ebooks&q=subject:$bookName
 
 

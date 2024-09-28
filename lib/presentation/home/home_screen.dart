@@ -1,6 +1,8 @@
 import 'package:bookly/core/DI/di.dart';
+import 'package:bookly/core/utils/routes_manager.dart';
 import 'package:bookly/presentation/home/tabs/book/book_screen.dart';
  import 'package:bookly/presentation/home/tabs/book/view_model/book_screen_view_model_cubit.dart';
+import 'package:bookly/presentation/home/tabs/book/widgets/search/viewModel/search_view_model_cubit.dart';
 import 'package:bookly/presentation/home/tabs/music/music_screen.dart';
 import 'package:bookly/presentation/home/tabs/profile/profile_screen.dart';
 import 'package:bookly/presentation/home/tabs/wishlist/wishilist_screen.dart';
@@ -35,8 +37,14 @@ class HomeScreen extends StatelessWidget {
             leading: SvgPicture.asset(
               StringsManager.Klogo, height: 50.h, width: 50.w,),
             actions: [
-              Icon(Icons.search, color: Colors.white, size: 45.sp,),
-            ],
+              BlocProvider(
+                create: (context) => getIt<SearchViewModelCubit>(),
+                child: IconButton(onPressed:(){
+                    Navigator.pushNamed(context, RoutesManager.searchScreen);
+                },
+                  icon: Icon(Icons.search, color: Colors.white, size: 45.sp,),),
+              ),
+             ],
           ),
           /*  bottomNavigationBar: BottomNavigationBar(
                       currentIndex: currentIndex ,

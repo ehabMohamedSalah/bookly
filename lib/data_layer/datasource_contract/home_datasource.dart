@@ -12,5 +12,5 @@ abstract class HomeDatasource{
       {required String category});
 
   Future<Either<List<BookModel>, String>>   SearchBooks(
-      {required String book});
+      {required String bookName});
 }
