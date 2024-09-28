@@ -1,16 +1,26 @@
+import 'package:bookly/core/DI/di.dart';
 import 'package:bookly/core/utils/routes_manager.dart';
 import 'package:bookly/presentation/home/home_screen.dart';
 import 'package:bookly/presentation/home/tabs/book/book_screen.dart';
-import 'package:bookly/presentation/home/tabs/book/view_model/bookScreen_viewModel.dart';
+ import 'package:bookly/presentation/home/tabs/book/view_model/book_screen_view_model_cubit.dart';
+import 'package:bookly/presentation/home/tabs/book/widgets/book-details.dart';
  import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'config/theme/AppTheme.dart';
+import 'core/api/api_manager.dart';
+import 'core/observer.dart';
 
-void main() {
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  ApiManager.init();
+  Bloc.observer = MyBlocObserver();
+  configureDependencies();
+
   runApp(  BlocProvider(
-      create: (context) => HomeViewModel(),
+      create: (context) => getIt<BookScreenViewModelCubit>(),
       child: MyApp()));
 }
 
@@ -31,6 +41,7 @@ class MyApp extends StatelessWidget {
        routes: {
            RoutesManager.bookScreen:(context) => BookTab(),
          RoutesManager.homeScreen:(context) => HomeScreen(),
+         RoutesManager.bookDetails:(context) => BookDetails(),
       
        },
       initialRoute: RoutesManager.homeScreen,
